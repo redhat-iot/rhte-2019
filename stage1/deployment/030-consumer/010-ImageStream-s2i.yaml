@@ -1,0 +1,18 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  labels:
+    app: consumer
+  name: nodejs-10
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - name: latest
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/rhoar-nodejs/nodejs-10:latest
+    importPolicy:
+      scheduled: true
+    referencePolicy:
+      type: Source

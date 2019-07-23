@@ -1,0 +1,18 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  labels:
+    app: publisher
+  name: go-toolset-rhel7
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - name: latest
+    from:
+      kind: DockerImage
+      name: registry.redhat.io/devtools/go-toolset-rhel7:latest
+    importPolicy:
+      scheduled: true
+    referencePolicy:
+      type: Source

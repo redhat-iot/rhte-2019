@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: consumer
+  namespace: rhte2019
+spec:
+  selector:
+    app: consumer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

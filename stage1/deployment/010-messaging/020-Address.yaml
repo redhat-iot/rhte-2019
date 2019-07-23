@@ -1,0 +1,8 @@
+kind: Address
+apiVersion: enmasse.io/v1alpha1
+metadata:
+  name: ticker.stock.rhat
+spec:
+  address: stock/RHAT
+  type: multicast
+  plan: standard-small-multicast

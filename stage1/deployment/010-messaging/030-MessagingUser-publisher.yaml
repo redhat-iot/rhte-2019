@@ -1,0 +1,14 @@
+kind: MessagingUser
+apiVersion: user.enmasse.io/v1alpha1
+metadata:
+  name: ticker.publisher
+spec:
+  username: publisher
+  authentication:
+    type: password
+    password: dGVzdDEy # test12
+  authorization:
+  - addresses:
+    - "stock/*"
+    operations:
+    - send

@@ -1,0 +1,34 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: publisher
+  labels:
+    app: publisher
+spec:
+  template: 
+    metadata:
+      labels:
+        name: publisher
+        app: publisher
+    spec:
+      containers:
+        - name: publisher
+          image: publisher
+          env:
+            - name: URI
+              value: amqps://publisher:test12@messaging-rmwnkb973w.enmasse-infra.svc:5671
+            - name: INSECURE
+              value: "true"
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - publisher
+        from:
+          kind: ImageStreamTag
+          name: publisher:latest
+  strategy: 
+    type: Rolling
+  replicas: 1 

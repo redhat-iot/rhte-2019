@@ -1,0 +1,22 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: publisher
+  labels:
+    app: publisher
+spec:
+  triggers: 
+    - type: ImageChange
+  source: 
+    git:
+      uri: "https://github.com/ctron/amq-online-example-stock-publisher"
+      ref: master
+  strategy: 
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: go-toolset-rhel7:latest
+  output: 
+    to:
+      kind: ImageStreamTag
+      name: publisher:latest

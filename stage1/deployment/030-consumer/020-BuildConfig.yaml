@@ -1,0 +1,22 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: consumer
+  labels:
+    app: consumer
+spec:
+  triggers: 
+    - type: ImageChange
+  source: 
+    git:
+      uri: "https://github.com/ctron/amq-online-example-stock-consumer"
+      ref: master
+  strategy: 
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: nodejs-10:latest
+  output: 
+    to:
+      kind: ImageStreamTag
+      name: consumer:latest

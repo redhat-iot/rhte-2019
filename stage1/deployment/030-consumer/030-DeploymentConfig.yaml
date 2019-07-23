@@ -1,0 +1,39 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: consumer
+  labels:
+    app: consumer
+spec:
+  template: 
+    metadata:
+      labels:
+        name: consumer
+        app: consumer
+    spec:
+      containers:
+        - name: consumer
+          image: consumer
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: AMQP_URI
+              value: wss://messaging-wss-rmwnkb973w-enmasse-infra.apps.wonderful.iot-playground.org:443
+            - name: AMQP_USERNAME
+              value: consumer
+            - name: AMQP_PASSWORD
+              value: test12
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - consumer
+        from:
+          kind: ImageStreamTag
+          name: consumer:latest
+  strategy: 
+    type: Rolling
+  replicas: 1 
