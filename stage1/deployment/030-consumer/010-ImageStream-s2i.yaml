@@ -11,7 +11,7 @@ spec:
   - name: latest
     from:
       kind: DockerImage
-      name: registry.redhat.io/rhoar-nodejs/nodejs-10:latest
+      name: openshift/nodejs-010-centos7:latest
     importPolicy:
       scheduled: true
     referencePolicy:
