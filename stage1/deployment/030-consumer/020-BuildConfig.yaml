@@ -15,7 +15,8 @@ spec:
     sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: nodejs-10:latest
+        name: nodejs:10
+        namespace: openshift
   output: 
     to:
       kind: ImageStreamTag

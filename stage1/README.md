@@ -4,4 +4,3 @@
 * Multiple consumers
 * No buffering
 * Update every 10 seconds
-
