@@ -1,0 +1,14 @@
+kind: MessagingUser
+apiVersion: user.enmasse.io/v1alpha1
+metadata:
+  name: info.consumer
+spec:
+  username: consumer
+  authentication:
+    type: password
+    password: dGVzdDEy # test12
+  authorization:
+  - addresses:
+    - "weather"
+    operations:
+    - recv

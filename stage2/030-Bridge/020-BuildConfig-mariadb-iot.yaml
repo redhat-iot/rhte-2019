@@ -1,0 +1,23 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: mariadb-iot
+  labels:
+    app: mariadb
+spec:
+  triggers: 
+    - type: ImageChange
+  source: 
+    git:
+      uri: "https://github.com/ctron/amq-online-example-iot-mariadb"
+      ref: master
+  strategy: 
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: mariadb:latest
+  output: 
+    to:
+      kind: ImageStreamTag
+      name: mariadb-iot:latest

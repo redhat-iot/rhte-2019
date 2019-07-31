@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: weather-app
+  labels:
+    app: weather-app
+spec:
+  to:
+    kind: Service
+    name: weather-app
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

@@ -1,0 +1,12 @@
+kind: MessagingUser
+apiVersion: user.enmasse.io/v1beta1
+metadata:
+  name: iot.consumer
+spec:
+  username: consumer
+  authentication:
+    type: password
+    password: dGVzdDEy # test12
+  authorization:
+  - addresses:  [ "telemetry/rhte2019.iot", "telemetry/rhte2019.iot/*", "event/rhte2019.iot", "event/rhte2019.iot/*" ]
+    operations: [ "recv" ]

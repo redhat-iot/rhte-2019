@@ -1,0 +1,52 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: consumer-iot
+  labels:
+    app: consumer-iot
+spec:
+  template: 
+    metadata:
+      labels:
+        name: consumer-iot
+        app: consumer-iot
+    spec:
+      containers:
+        - name: consumer-iot
+          image: consumer-iot
+          ports:
+            - containerPort: 8778
+              protocol: TCP
+              name: jolokia
+          env:
+            - name: IOT_TENANT
+              value: rhte2019.iot
+            - name: AMQP_USERNAME
+              value: consumer
+            - name: AMQP_PASSWORD
+              value: test12
+            - name: AMQP_HOST
+              value: messaging-ezjvdj201q.enmasse-infra.svc
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mariadb://mariadb:3306/iot
+            - name: SPRING_DATASOURCE_USERNAME
+              value: user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+          livenessProbe:
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
+            httpGet:
+              path: /health
+              port: 8081
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - consumer-iot
+        from:
+          kind: ImageStreamTag
+          name: consumer-iot:latest
+  replicas: 1 

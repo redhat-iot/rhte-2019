@@ -1,0 +1,50 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  template: 
+    metadata:
+      labels:
+        name: mariadb
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql/data
+          env:
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_DATABASE
+              value: iot
+          livenessProbe:
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 3306
+      volumes:
+        - name: data
+          emptyDir: {}
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - mariadb
+        from:
+          kind: ImageStreamTag
+          name: mariadb-iot:latest
+  strategy: 
+    type: Recreate
+  replicas: 1 

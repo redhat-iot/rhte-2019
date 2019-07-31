@@ -1,0 +1,39 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: weather-app
+  labels:
+    app: weather-app
+spec:
+  template: 
+    metadata:
+      labels:
+        name: weather-app
+        app: weather-app
+    spec:
+      containers:
+        - name: weather-app
+          image: weather-app
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: AMQP_URI
+              value: wss://messaging-wss-5zo7ts3lob-enmasse-infra.apps.wonderful.iot-playground.org:443
+            - name: AMQP_USERNAME
+              value: consumer
+            - name: AMQP_PASSWORD
+              value: test12
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - weather-app
+        from:
+          kind: ImageStreamTag
+          name: weather-app:latest
+  strategy: 
+    type: Rolling
+  replicas: 1 

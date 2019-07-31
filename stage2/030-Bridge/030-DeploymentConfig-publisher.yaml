@@ -1,0 +1,50 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: publisher-iot
+  labels:
+    app: publisher-iot
+spec:
+  template: 
+    metadata:
+      labels:
+        name: publisher-iot
+        app: publisher-iot
+    spec:
+      containers:
+        - name: publisher-iot
+          image: publisher-iot
+          ports:
+            - containerPort: 8778
+              protocol: TCP
+              name: jolokia
+          env:
+            - name: AMQP_USERNAME
+              value: publisher
+            - name: AMQP_PASSWORD
+              value: test12
+            - name: AMQP_HOST
+              value: messaging-5zo7ts3lob.enmasse-infra.svc
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mariadb://mariadb:3306/iot
+            - name: SPRING_DATASOURCE_USERNAME
+              value: user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+          livenessProbe:
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
+            httpGet:
+              path: /health
+              port: 8081
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - publisher-iot
+        from:
+          kind: ImageStreamTag
+          name: publisher-iot:latest
+  replicas: 1 

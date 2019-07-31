@@ -1,0 +1,8 @@
+kind: Address
+apiVersion: enmasse.io/v1alpha1
+metadata:
+  name: info.weather
+spec:
+  address: weather
+  type: multicast
+  plan: standard-small-multicast

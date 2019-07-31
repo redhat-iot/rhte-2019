@@ -1,0 +1,7 @@
+kind: AddressSpace
+apiVersion: enmasse.io/v1alpha1
+metadata:
+  name: info
+spec:
+  type: standard
+  plan: standard-unlimited
