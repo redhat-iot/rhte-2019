@@ -28,3 +28,14 @@ and provides a dashboard with the aggregated value.
 **Note:** The IoT functionality of AMQ Online is still tech preview.
 
 See: [stage2](stage2/)
+
+## See also
+
+The tutorial will use code from the following repositories:
+
+* https://github.com/ctron/amq-online-example-iot-camel-consumer
+* https://github.com/ctron/amq-online-example-iot-camel-publisher
+* https://github.com/ctron/amq-online-example-iot-mariadb
+* https://github.com/ctron/amq-online-example-iot-weather
+* https://github.com/ctron/amq-online-example-stock-consumer
+* https://github.com/ctron/amq-online-example-stock-publisher
