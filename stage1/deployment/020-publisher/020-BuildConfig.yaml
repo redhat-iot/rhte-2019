@@ -13,9 +13,12 @@ spec:
       ref: master
   strategy: 
     sourceStrategy:
+      env:
+        - name: "IMPORT_URL"
+          value: "github.com/ctron/amq-online-example-stock-publisher"
       from:
         kind: ImageStreamTag
-        name: go-toolset-rhel7:latest
+        name: go-toolset:latest
   output: 
     to:
       kind: ImageStreamTag
