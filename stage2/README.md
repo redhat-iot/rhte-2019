@@ -1,11 +1,4 @@
-## Pre-requisites
-
-Download and install to your local machine:
-
-* https://github.com/ctron/hat/releases
-* https://github.com/ctron/hot/releases (be sure to use a 0.4.x version)
-
-In the following examples the tools will be references to as `hat` and `hot`, so please rename them accordingly after downloading.
+# IoT weather application
 
 ## Create connection to AMQ Online IoT
 
