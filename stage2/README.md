@@ -1,43 +1,5 @@
 # IoT weather application
 
-## Create connection to AMQ Online IoT
-
-Create a new connection:
-
-* **Connection URI:** `amqps://messaging-ezjvdj201q.enmasse-infra.svc:5671`
-* **User Name:** `consumer`
-* **Password:**: `test12`
-* **Check Certificates**: `false` (*sigh*)
-
-Next page:
-
-* **Connection Name:** `iot`
-
-## Create connection to MariaDB
-
-Create a new connection:
-
-* **Connection URI:** `jdbc:mysql://mariadb.rhte2019.svc:3306/iot`
-* **Username:** `user`
-* **Password:** `password`
-
-## New Integration
-
-Create a new integration:
-
-### Source
-
-Use "Subscribe for messages":
-
-* **Destination Name**: `telemetry/rhet2019.iot`
-* **Destination Type**: `topic`
-
-Output data type:
-
-* **Type**: JSON Instance
-* **Definition**: `{"temp":1.2}`
-* **Data Type Name**: `device-payload`
-
 ## Register a new device
 
     hat context create tutorial-iot https://device-registry-enmasse-infra.apps.wonderful.iot-playground.org --default-tenant rhte2019.iot
