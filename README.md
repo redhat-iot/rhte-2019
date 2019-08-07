@@ -17,7 +17,7 @@ This part of the tutorial will focus on generic messaging. It will show case
 a "stock ticker" application, which has a single publisher of prices and
 multiple consumers.
 
-See: [stage1](stage1/) 
+See: [example1](example1/) 
 
 ## IoT connectivity
 
@@ -25,9 +25,7 @@ This part of the tutorial will combine generic messaging and IoT
 connectivity to build an application with gathers weather information
 and provides a dashboard with the aggregated value.
 
-**Note:** The IoT functionality of AMQ Online is still tech preview.
-
-See: [stage2](stage2/)
+See: [example2](example2/)
 
 ## See also
 

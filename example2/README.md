@@ -1,5 +1,7 @@
 # IoT weather application
 
+**Note:** The IoT functionality of AMQ Online is still tech preview.
+
 ## Register a new device
 
     hat context create tutorial-iot https://device-registry-enmasse-infra.apps.wonderful.iot-playground.org --default-tenant rhte2019.iot
