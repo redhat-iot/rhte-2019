@@ -16,7 +16,7 @@ spec:
           image: publisher
           env:
             - name: URI
-              value: amqps://publisher:test12@messaging-rmwnkb973w.enmasse-infra.svc:5671
+              value: amqps://publisher:test12@<<"messaging" service endpoint>>:5671
             - name: INSECURE
               value: "true"
   triggers:
