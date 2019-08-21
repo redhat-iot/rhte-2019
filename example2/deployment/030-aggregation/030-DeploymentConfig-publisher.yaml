@@ -24,7 +24,7 @@ spec:
             - name: AMQP_PASSWORD
               value: test12
             - name: AMQP_HOST
-              value: messaging-5zo7ts3lob.enmasse-infra.svc
+              value: <<"messaging" service endpoint of "info" address space>>
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mariadb://mariadb:3306/iot
             - name: SPRING_DATASOURCE_USERNAME

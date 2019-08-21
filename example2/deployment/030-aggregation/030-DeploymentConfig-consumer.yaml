@@ -20,13 +20,13 @@ spec:
               name: jolokia
           env:
             - name: IOT_TENANT
-              value: rhte2019.iot
+              value: <<iot-tenant>>
             - name: AMQP_USERNAME
               value: consumer
             - name: AMQP_PASSWORD
               value: test12
             - name: AMQP_HOST
-              value: messaging-ezjvdj201q.enmasse-infra.svc
+              value: <<"messaging" service endpoint of "iot" address space>>
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mariadb://mariadb:3306/iot
             - name: SPRING_DATASOURCE_USERNAME
