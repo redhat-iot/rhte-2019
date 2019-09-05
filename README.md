@@ -6,8 +6,8 @@ Install the `oc` command line application: https://docs.openshift.com/container-
 
 Download and install to your local machine:
 
-* https://github.com/ctron/hat/releases
-* https://github.com/ctron/hot/releases (be sure to use a 0.4.x version)
+* https://github.com/ctron/hat/releases (be sure to use a 0.4.x version)
+* https://github.com/ctron/hot/releases
 
 In the following examples the tools will be references to as `hat` and `hot`, so please rename them accordingly after downloading.
 
