@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+set -e
+
+GUID="7764"
+USER="evals01"
+PASSWORD="MPD5ZrPAyB1gw0B"
+
+ENMASSE_PRJ="enmasse"
+APPS_BASE_URL=".apps.${GUID}.events.opentlc.com"
+URL="https://master.${GUID}.events.opentlc.com"
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd "${SCRIPT_DIR}/.."
+pwd
+
+export KUBECONFIG="${SCRIPT_DIR}/.kube"
+
+oc login "${URL}" --username="${USER}" --password="${PASSWORD}"
+
+oc new-project "user-${USER}"
+
+# example 1
+
+oc create -f example1/deployment/010-messaging
+
+MESSAGING_ENDPOINT=$(oc get addressspace ticker -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
+MESSAGING_WSS_ENDPOINT=$(oc get addressspace ticker -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }')
+echo "Ticker endpoint: $MESSAGING_ENDPOINT"
+
+oc create -f example1/deployment/020-publisher
+oc create -f example1/deployment/030-consumer
+
+oc set env dc/publisher "URI=amqps://publisher:test12@${MESSAGING_ENDPOINT}:5671"
+oc set env dc/consumer "AMQP_URI=wss://${MESSAGING_WSS_ENDPOINT}:443"
+
+## example 2
+
+export IOT_TENANT=$(oc project -q ).iot
+
+oc create -f example2/deployment/010-iot/010-IoTProject.yaml
+cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/rhte2019/'${IOT_TENANT}'/g' | oc create -f -
+oc create -f example2/deployment/020-messaging
+oc create -f example2/deployment/030-aggregation
+oc create -f example2/deployment/040-dashboard
+
+oc set env dc/consumer-iot IOT_TENANT="${IOT_TENANT}.iot" AMQP_HOST=$(oc get addressspace iot -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
+oc set env dc/publisher-iot AMQP_HOST=$(oc get addressspace info -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
+oc set env dc/weather-app AMQP_URI=wss://$(oc get addressspace info -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }'):443
+
+oc describe route
+
+# IoT device
+
+export REG_URL=https://device-registry-${ENMASSE_PRJ}${APPS_BASE_URL}
+export HTTP_URL=https://iot-http-adapter-${ENMASSE_PRJ}${APPS_BASE_URL}
+export MQTT_URL=ssl://iot-mqtt-adapter-${ENMASSE_PRJ}${APPS_BASE_URL}:443
+
+echo hat context delete "rhte-${USER}"
+echo hat context create "rhte-${USER}" "${REG_URL}" --default-tenant "${IOT_TENANT}"
+echo hat reg create device1
+echo hat cred set-password auth1 sha-256 pwd1 --device device1
+echo hot publish http telemetry "${HTTP_URL}" "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}' -t "application/json"
+echo hot publish mqtt telemetry "${MQTT_URL}" "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}'
