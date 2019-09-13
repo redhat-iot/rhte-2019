@@ -3,15 +3,15 @@ apiVersion: image.openshift.io/v1
 metadata:
   labels:
     app: publisher
-  name: go-toolset-rhel7
+  name: centos
 spec:
   lookupPolicy:
     local: false
   tags:
-  - name: latest
+  - name: "7"
     from:
       kind: DockerImage
-      name: registry.redhat.io/devtools/go-toolset-rhel7:latest
+      name: docker.io/centos:7
     importPolicy:
       scheduled: true
     referencePolicy:

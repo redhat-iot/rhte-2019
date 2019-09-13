@@ -12,10 +12,10 @@ spec:
       uri: "https://github.com/ctron/amq-online-example-stock-publisher"
       ref: master
   strategy: 
-    sourceStrategy:
+    dockerStrategy:
       from:
         kind: ImageStreamTag
-        name: go-toolset-rhel7:latest
+        name: centos:7
   output: 
     to:
       kind: ImageStreamTag
