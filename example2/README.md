@@ -56,7 +56,11 @@ In this case, simply wait a bit and re-try `oc apply`.
 ### Messaging resources
 
 The second component to deploy is an additional set of messaging resources. We will
-use these messaging resources to publish the aggregated results from the IoT aggregation application:
+use these messaging resources to publish the aggregated results from the IoT aggregation application.
+
+Before creating the resources, you will need to adapt the file `020-messaging/030-MessagingUser-consumer.yaml`
+and change the address names, as they do contain the IoT tenant name. Replace `rhte2019.iot` with
+the actual tenant name (`<namespace>.iot`). Then execute:
 
     oc apply -f 020-messaging
 
@@ -109,9 +113,16 @@ Then deploy the dashboard by executing:
 
 ## Testing
 
+Store the device registry endpoint in a variable:
+
+    export IOT_TENANT=$(oc project -q ).iot
+    export REG_URL=https://$(oc get route device-registry -o jsonpath='{ .spec.host }')
+    export HTTP_URL=https://$(oc get route iot-http-adapter -o jsonpath='{ .spec.host }')
+    export MQTT_URL=ssl://$(oc get route iot-mqtt-adapter -o jsonpath='{ .spec.host }')
+
 ### Register a new device
 
-    hat context create tutorial-iot https://device-registry-enmasse-infra.apps.wonderful.iot-playground.org --default-tenant rhte2019.iot
+    hat context create tutorial-iot "${REG_URL}" --default-tenant "${IOT_TENANT}"
     hat reg create device1
     hat cred set-password auth1 sha-256 pwd1 --device device1
 
@@ -120,8 +131,8 @@ Then deploy the dashboard by executing:
 You can emulate a device using the tool `hot`. This allows you to publish data, like an IoT device
 would normally do.
 
-    hot publish http telemetry https://iot-http-adapter-enmasse-infra.apps.wonderful.iot-playground.org rhte2019.iot device1 auth1 pwd1 '{"temp":20.0}' -t "application/json"
+    hot publish http telemetry "${HTTP_URL}" "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}' -t "application/json"
 
 Or using MQTT:
 
-    hot publish mqtt telemetry https://iot-mqtt-adapter-enmasse-infra.apps.wonderful.iot-playground.org rhte2019.iot device1 auth1 pwd1 '{"temp":20.0}'
+    hot publish mqtt telemetry ${MQTT_URL} "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}'
