@@ -39,12 +39,12 @@ oc set env dc/consumer "AMQP_URI=wss://${MESSAGING_WSS_ENDPOINT}:443"
 export IOT_TENANT=$(oc project -q ).iot
 
 oc create -f example2/deployment/010-iot/010-IoTProject.yaml
-cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/rhte2019/'${IOT_TENANT}'/g' | oc create -f -
+cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/rhte2019\.iot/'${IOT_TENANT}'/g' | oc create -f -
 oc create -f example2/deployment/020-messaging
 oc create -f example2/deployment/030-aggregation
 oc create -f example2/deployment/040-dashboard
 
-oc set env dc/consumer-iot IOT_TENANT="${IOT_TENANT}.iot" AMQP_HOST=$(oc get addressspace iot -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
+oc set env dc/consumer-iot IOT_TENANT="${IOT_TENANT}" AMQP_HOST=$(oc get addressspace iot -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
 oc set env dc/publisher-iot AMQP_HOST=$(oc get addressspace info -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
 oc set env dc/weather-app AMQP_URI=wss://$(oc get addressspace info -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }'):443
 
@@ -60,5 +60,5 @@ echo hat context delete "rhte-${USER}"
 echo hat context create "rhte-${USER}" "${REG_URL}" --default-tenant "${IOT_TENANT}"
 echo hat reg create device1
 echo hat cred set-password auth1 sha-256 pwd1 --device device1
-echo hot publish http telemetry "${HTTP_URL}" "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}' -t "application/json"
-echo hot publish mqtt telemetry "${MQTT_URL}" "${IOT_TENANT}" device1 auth1 pwd1 '{"temp":20.0}'
+echo hot publish http telemetry "${HTTP_URL}" "${IOT_TENANT}" device1 auth1 pwd1 \'{\"temp\":20.0}\' -t application/json
+echo hot publish mqtt telemetry "${MQTT_URL}" "${IOT_TENANT}" device1 auth1 pwd1 \'{\"temp\":20.0}\'
