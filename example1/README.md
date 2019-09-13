@@ -7,7 +7,8 @@
 
 ## Deployment
 
-Unfortunately you cannot simply deploy the whole application in one big step.
+Unfortunately you cannot simply deploy the whole application in one big step. The next sections
+describe how to deploy this tutorial.
 
 ### Messaging resources
 
