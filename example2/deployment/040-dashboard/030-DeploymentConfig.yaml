@@ -19,7 +19,7 @@ spec:
               protocol: TCP
           env:
             - name: AMQP_URI
-              value: wss://messaging-wss-5zo7ts3lob-enmasse-infra.apps.wonderful.iot-playground.org:443
+              value: wss://<<"messaging-wss" external endpoint of "info" address space>>:443
             - name: AMQP_USERNAME
               value: consumer
             - name: AMQP_PASSWORD

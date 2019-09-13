@@ -81,7 +81,7 @@ You will need to update the following environment variables:
      ~~~
      oc get addressspace iot -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }'
      ~~~
-* In `030-DeploymentConfig-publisher.yaml`
+* In `030-aggregation/030-DeploymentConfig-publisher.yaml`
   ** `AMQP_HOST` with the output of (❗`info` address space❗):
      
      ~~~
@@ -94,7 +94,18 @@ Then deploy everything using:
 
 ### Dashboard application
 
+You will need to update the following environment variables:
 
+* In `040-dashboard/030-DeploymentConfig.yaml`
+  ** `AMQP_URI` with the output of (❗`info` address space❗):
+     
+     ~~~
+     oc get addressspace info -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }'
+     ~~~
+
+Then deploy the dashboard by executing:
+
+    oc apply -f 040-dashboard
 
 ## Testing
 
