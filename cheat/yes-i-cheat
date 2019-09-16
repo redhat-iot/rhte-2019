@@ -6,6 +6,14 @@ GUID="7764"
 USER="evals01"
 PASSWORD="MPD5ZrPAyB1gw0B"
 
+while getopts "g:u:p:" arg; do
+    case $arg in
+        g) GUID=$OPTARG;;
+        u) USER=$OPTARG;;
+        p) PASSWORD=$OPTARG;;
+    esac
+done
+
 ENMASSE_PRJ="enmasse"
 APPS_BASE_URL=".apps.${GUID}.events.opentlc.com"
 URL="https://master.${GUID}.events.opentlc.com"
@@ -22,7 +30,11 @@ oc new-project "user-${USER}"
 
 # example 1
 
-oc create -f example1/deployment/010-messaging
+oc create -f example1/deployment/010-messaging/010-AddressSpace.yaml
+sleep 30
+oc create -f example1/deployment/010-messaging/020-Address.yaml
+oc create -f example1/deployment/010-messaging/030-MessagingUser-consumer.yaml
+oc create -f example1/deployment/010-messaging/030-MessagingUser-publisher.yaml
 
 MESSAGING_ENDPOINT=$(oc get addressspace ticker -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging")].serviceHost }')
 MESSAGING_WSS_ENDPOINT=$(oc get addressspace ticker -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }')
@@ -40,7 +52,12 @@ export IOT_TENANT=$(oc project -q ).iot
 
 oc create -f example2/deployment/010-iot/010-IoTProject.yaml
 cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/rhte2019\.iot/'${IOT_TENANT}'/g' | oc create -f -
-oc create -f example2/deployment/020-messaging
+#oc create -f example2/deployment/020-messaging
+oc create -f example2/deployment/020-messaging/010-AddressSpace.yaml
+sleep 30
+oc create -f example2/deployment/020-messaging/020-Address.yaml
+oc create -f example2/deployment/020-messaging/030-MessagingUser-consumer.yaml
+oc create -f example2/deployment/020-messaging/030-MessagingUser-publisher.yaml
 oc create -f example2/deployment/030-aggregation
 oc create -f example2/deployment/040-dashboard
 
