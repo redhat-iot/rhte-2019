@@ -120,7 +120,7 @@ Store the device registry endpoint in a variable:
     export IOT_TENANT=$(oc project -q ).iot
     export REG_URL=https://$(oc -n enmasse get route device-registry -o jsonpath='{ .spec.host }')
     export HTTP_URL=https://$(oc -n enmasse get route iot-http-adapter -o jsonpath='{ .spec.host }')
-    export MQTT_URL=ssl://$(oc -n enmasse get route iot-mqtt-adapter -o jsonpath='{ .spec.host }')
+    export MQTT_URL=ssl://$(oc -n enmasse get route iot-mqtt-adapter -o jsonpath='{ .spec.host }'):443
 
 ### Register a new device
 
