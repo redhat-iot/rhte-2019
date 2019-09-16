@@ -8,5 +8,5 @@ spec:
     type: password
     password: dGVzdDEy # test12
   authorization:
-  - addresses:  [ "telemetry/rhte2019.iot", "telemetry/rhte2019.iot/*", "event/rhte2019.iot", "event/rhte2019.iot/*" ]
+  - addresses:  [ "telemetry/<<iot-tenant>>", "telemetry/<<iot-tenant>>/*", "event/<<iot-tenant>>", "event/<<iot-tenant>>/*" ]
     operations: [ "recv" ]
