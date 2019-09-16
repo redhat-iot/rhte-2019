@@ -51,7 +51,7 @@ oc set env dc/consumer "AMQP_URI=wss://${MESSAGING_WSS_ENDPOINT}:443"
 export IOT_TENANT=$(oc project -q ).iot
 
 oc create -f example2/deployment/010-iot/010-IoTProject.yaml
-cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/rhte2019\.iot/'${IOT_TENANT}'/g' | oc create -f -
+cat example2/deployment/010-iot/030-MessagingUser-consumer.yaml | sed -e 's/<<iot-tenant>>/'${IOT_TENANT}'/g' | oc create -f -
 #oc create -f example2/deployment/020-messaging
 oc create -f example2/deployment/020-messaging/010-AddressSpace.yaml
 sleep 30
