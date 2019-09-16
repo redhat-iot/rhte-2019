@@ -45,7 +45,7 @@ You can extract the information by taking a look at the address space status:
 
 Use the value, and replace the string `<<"messaging" service endpoint>>` with it.
 
-The deploy the publisher by executing:
+Deploy the publisher by executing:
 
     oc apply -f 020-publisher
 
@@ -59,6 +59,10 @@ For this you need to extract the external endpoint information, this time of the
     oc get addressspace ticker -o jsonpath='{ .status.endpointStatuses[?(@.name=="messaging-wss")].externalHost }'
 
 Use the value, and replace the string `<<"messaging-wss" external endpoint>>` in the file `030-consumer/030-DeploymentConfig.yaml` with it.
+
+Deploy the consumer by executing:
+
+    oc apply -f 030-consumer
 
 ### Testing
 
