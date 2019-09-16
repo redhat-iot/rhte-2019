@@ -43,7 +43,11 @@ describe how to deploy this tutorial.
 
 ### IoT project
 
-The first component to deploy is the IoT project, you can do this by executing:
+The first component to deploy is the IoT project.
+
+Before creating the resources, you will need to adapt the file `010-iot/030-MessagingUser-consumer.yaml`
+and change the address names, as they do contain the IoT tenant name. Replace `IOT_TENANT` with
+the actual tenant name (`<namespace>.iot`).
 
     oc apply -f 010-iot
 
@@ -58,9 +62,7 @@ In this case, simply wait a bit and re-try `oc apply`.
 The second component to deploy is an additional set of messaging resources. We will
 use these messaging resources to publish the aggregated results from the IoT aggregation application.
 
-Before creating the resources, you will need to adapt the file `020-messaging/030-MessagingUser-consumer.yaml`
-and change the address names, as they do contain the IoT tenant name. Replace `rhte2019.iot` with
-the actual tenant name (`<namespace>.iot`). Then execute:
+To deploy it, execute:
 
     oc apply -f 020-messaging
 
@@ -116,9 +118,9 @@ Then deploy the dashboard by executing:
 Store the device registry endpoint in a variable:
 
     export IOT_TENANT=$(oc project -q ).iot
-    export REG_URL=https://$(oc get route device-registry -o jsonpath='{ .spec.host }')
-    export HTTP_URL=https://$(oc get route iot-http-adapter -o jsonpath='{ .spec.host }')
-    export MQTT_URL=ssl://$(oc get route iot-mqtt-adapter -o jsonpath='{ .spec.host }')
+    export REG_URL=https://$(oc -n enmasse get route device-registry -o jsonpath='{ .spec.host }')
+    export HTTP_URL=https://$(oc -n enmasse get route iot-http-adapter -o jsonpath='{ .spec.host }')
+    export MQTT_URL=ssl://$(oc -n enmasse get route iot-mqtt-adapter -o jsonpath='{ .spec.host }')
 
 ### Register a new device
 
