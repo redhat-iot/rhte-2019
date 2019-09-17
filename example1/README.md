@@ -66,19 +66,20 @@ Deploy the consumer by executing:
 
 ### Testing
 
-Either by executing:
+Locate the URL to the consumer application. Either by executing:
 
     oc describe route consumer
 
-Or by using the OpenShift Web console, you can get the final URL to the consumer application.
+or by using the OpenShift Web console.
+
 You can open a web browser to this URL, and should see the stock price page, with a single stock
 ticker, and an updating price.
 
 ## Things to try
 
-* Change the stock symbol of existing one
+* Change the stock symbol of the existing one
 * Add a new stock symbol
   ** Add new messaging resources
   ** Add a new publisher
-  ** Add the stock symbol to the existing consumer
+  ** Add the stock symbol to the existing consumer application
 * …

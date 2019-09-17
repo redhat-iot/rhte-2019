@@ -17,7 +17,9 @@ This part of the tutorial will focus on generic messaging. It will show case
 a "stock ticker" application, which has a single publisher of prices and
 multiple consumers.
 
-See: [example1](example1/) 
+See: [example1](example1/)
+
+![Example 1 overview](images/example-1.svg "Overview") 
 
 ## IoT connectivity
 
@@ -26,6 +28,8 @@ connectivity to build an application with gathers weather information
 and provides a dashboard with the aggregated value.
 
 See: [example2](example2/)
+
+![Example 2 overview](images/example-2.svg "Overview")
 
 ## See also
 

@@ -118,13 +118,22 @@ Then deploy the dashboard by executing:
 Store the device registry endpoint in a variable:
 
     export IOT_TENANT=$(oc project -q ).iot
-    export REG_URL=https://$(oc -n enmasse get route device-registry -o jsonpath='{ .spec.host }')
-    export HTTP_URL=https://$(oc -n enmasse get route iot-http-adapter -o jsonpath='{ .spec.host }')
-    export MQTT_URL=ssl://$(oc -n enmasse get route iot-mqtt-adapter -o jsonpath='{ .spec.host }'):443
+    
+    export GUID=<<from the master URL>>
+    
+    export BASE_URL="apps.${GUID}.events.opentlc.com"
+    export REG_URL="https://device-registry-enmasse.${BASE_URL}"
+    export HTTP_URL="https://iot-http-adapter-enmasse.${BASE_URL}"
+    export MQTT_URL="ssl://iot-mqtt-adapter-enmasse.${BASE_URL}:443"
 
 ### Register a new device
 
+Create a client context once:
+
     hat context create tutorial-iot "${REG_URL}" --default-tenant "${IOT_TENANT}"
+
+Then register a new device, and set a password:
+
     hat reg create device1
     hat cred set-password auth1 sha-256 pwd1 --device device1
 
